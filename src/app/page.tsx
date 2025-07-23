@@ -17,6 +17,12 @@ export default function Home() {
         >
           View Profile
         </Link>
+        <Link
+          className="w-80 cursor-pointer rounded-xl bg-blue-600 px-5 py-3 text-center font-medium text-white hover:bg-blue-700 active:bg-blue-800"
+          href={"/users"}
+        >
+          Find Users
+        </Link>
       </div>
     </div>
   );
