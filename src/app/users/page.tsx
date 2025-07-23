@@ -73,7 +73,15 @@ export default function Users() {
                     {user.users.properties.email}
                   </p>
                 </div>
-                <button className="cursor-pointer rounded-xl bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700 active:bg-blue-800">
+                <button
+                  className="cursor-pointer rounded-xl bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700 active:bg-blue-800"
+                  onClick={async () => {
+                    await fetch(
+                      `/api/connections/request?id=${encodeURIComponent(user.users.properties.id)}`,
+                      { method: "POST" },
+                    );
+                  }}
+                >
                   Connect
                 </button>
               </div>
