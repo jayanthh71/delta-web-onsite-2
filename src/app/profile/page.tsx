@@ -16,6 +16,10 @@ export default async function Profile() {
         <p className="text-lg font-bold">Hello, {user.name}</p>
         <p className="text-sm text-gray-300">{user.email}</p>
       </div>
+
+      <div>
+        <p className="text-xl">Your Connection Requests:</p>
+      </div>
     </div>
   );
 }

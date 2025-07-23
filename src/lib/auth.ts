@@ -5,16 +5,19 @@ import NextAuth from "next-auth";
 import Google from "next-auth/providers/google";
 
 if (
-  !process.env.NEO4J_URI ||
-  !process.env.NEO4J_USERNAME ||
-  !process.env.NEO4J_PASSWORD
+  !process.env.NEXT_PUBLIC_NEO4J_URI ||
+  !process.env.NEXT_PUBLIC_NEO4J_USERNAME ||
+  !process.env.NEXT_PUBLIC_NEO4J_PASSWORD
 ) {
   throw new Error("Missing Neo4j connection details in environment variables.");
 }
 
 const driver = neo4j.driver(
-  process.env.NEO4J_URI,
-  neo4j.auth.basic(process.env.NEO4J_USERNAME, process.env.NEO4J_PASSWORD),
+  process.env.NEXT_PUBLIC_NEO4J_URI,
+  neo4j.auth.basic(
+    process.env.NEXT_PUBLIC_NEO4J_USERNAME,
+    process.env.NEXT_PUBLIC_NEO4J_PASSWORD,
+  ),
 );
 
 const neo4jSession = driver.session();
