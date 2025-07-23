@@ -32,6 +32,8 @@ export default function ConnectionRequests({ requests }: { requests: any[] }) {
 
   const getDegreeLabel = (degree: number) => {
     switch (degree) {
+      case -1:
+        return "me";
       case 0:
         return "new";
       case 1:

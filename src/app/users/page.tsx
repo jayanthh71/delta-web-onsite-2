@@ -59,6 +59,8 @@ export default function Users() {
 
   const getDegreeLabel = (degree: number) => {
     switch (degree) {
+      case -1:
+        return "me";
       case 0:
         return "new";
       case 1:
@@ -123,7 +125,8 @@ export default function Users() {
                   className="cursor-pointer rounded-xl bg-blue-600 px-4 py-2 font-semibold text-white hover:bg-blue-700 active:bg-blue-800 disabled:cursor-not-allowed disabled:bg-gray-400"
                   disabled={
                     connectingUsers[user.users.properties.id] ||
-                    connectedUsers[user.users.properties.id]
+                    connectedUsers[user.users.properties.id] ||
+                    userDegrees[user.users.properties.id] === -1
                   }
                   onClick={async () => {
                     const userId = user.users.properties.id;
@@ -151,11 +154,13 @@ export default function Users() {
                     }
                   }}
                 >
-                  {connectingUsers[user.users.properties.id]
-                    ? "Connecting..."
-                    : connectedUsers[user.users.properties.id]
-                      ? "Connection Sent"
-                      : "Connect"}
+                  {userDegrees[user.users.properties.id] === -1
+                    ? "You"
+                    : connectingUsers[user.users.properties.id]
+                      ? "Connecting..."
+                      : connectedUsers[user.users.properties.id]
+                        ? "Connection Sent"
+                        : "Connect"}
                 </button>
               </div>
             ))}

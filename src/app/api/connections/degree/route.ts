@@ -16,6 +16,17 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: "User ID is required" }, { status: 400 });
   }
 
+  // Check if the user is querying themselves
+  if (userId === user.id) {
+    return NextResponse.json(
+      {
+        degree: -1,
+        message: "Cannot calculate degree with yourself",
+      },
+      { status: 200 },
+    );
+  }
+
   try {
     // First check if you are directly connected to the target user
     const directConnectionCypher = `
