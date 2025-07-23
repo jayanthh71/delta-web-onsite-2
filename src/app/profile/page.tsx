@@ -1,5 +1,6 @@
 import ConnectionRequests from "@/components/ConnectionRequests";
 import Connections from "@/components/Connections";
+import SignOutButton from "@/components/SignOutButton";
 import { auth } from "@/lib/auth";
 import { redirect } from "next/navigation";
 
@@ -28,6 +29,7 @@ export default async function Profile() {
       <div className="flex flex-col gap-4">
         <p className="text-lg font-bold">Hello, {user.name}</p>
         <p className="text-sm text-gray-300">{user.email}</p>
+        <SignOutButton />
       </div>
       <Connections connections={connections} />
       <ConnectionRequests requests={requests} />

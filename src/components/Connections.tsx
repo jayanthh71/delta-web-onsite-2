@@ -1,6 +1,14 @@
 "use client";
 
+import { useState } from "react";
+
 export default function Connections({ connections }: { connections: any[] }) {
+  const [removingUsers, setRemovingUsers] = useState<{
+    [key: string]: boolean;
+  }>({});
+  const [removedUsers, setRemovedUsers] = useState<{ [key: string]: boolean }>(
+    {},
+  );
   return (
     <div>
       <p className="mb-8 text-xl">Your Connections:</p>
@@ -17,22 +25,42 @@ export default function Connections({ connections }: { connections: any[] }) {
                     <p className="font-semibold">
                       {connection.connection.properties.name}
                     </p>
-                    <p className="text-sm text-gray-500">(2nd)</p>
                   </div>
                   <p className="text-sm text-gray-500">
                     {connection.connection.properties.email}
                   </p>
                 </div>
                 <button
-                  className="cursor-pointer rounded-xl bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700 active:bg-red-800"
+                  className="cursor-pointer rounded-xl bg-red-600 px-4 py-2 font-semibold text-white hover:bg-red-700 active:bg-red-800 disabled:cursor-not-allowed disabled:bg-gray-400"
+                  disabled={
+                    removingUsers[connection.connection.properties.id] ||
+                    removedUsers[connection.connection.properties.id]
+                  }
                   onClick={async () => {
-                    await fetch(
-                      `/api/connections/remove?id=${encodeURIComponent(connection.connection.properties.id)}`,
-                      { method: "DELETE" },
-                    );
+                    const userId = connection.connection.properties.id;
+                    setRemovingUsers((prev) => ({ ...prev, [userId]: true }));
+
+                    try {
+                      await fetch(
+                        `/api/connections/remove?id=${encodeURIComponent(userId)}`,
+                        { method: "DELETE" },
+                      );
+                      setRemovedUsers((prev) => ({ ...prev, [userId]: true }));
+                    } catch (error) {
+                      console.error("Failed to remove connection:", error);
+                    } finally {
+                      setRemovingUsers((prev) => ({
+                        ...prev,
+                        [userId]: false,
+                      }));
+                    }
                   }}
                 >
-                  Remove
+                  {removingUsers[connection.connection.properties.id]
+                    ? "Removing..."
+                    : removedUsers[connection.connection.properties.id]
+                      ? "Removed"
+                      : "Remove"}
                 </button>
               </div>
             ))}
